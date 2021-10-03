@@ -1,0 +1,47 @@
+---
+title: "About"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+source("style.R")
+```
+
+## Contributors
+
+**Website:** Zachary Foster, Nik Grunwald, Meg Larsen, and Val Fieland.
+
+**Rps10 database:** Frank Martin, Val Fieland, Nik Grunwald, Hai Nguyen, Treena Burgess
+
+**Rps10 barcode primer design and validation:** Felipe Albornoz, Zachary Foster, Val Fieland, Meg Larsen, Nik Grunwald, Frank Martin
+
+## Acknowledgments
+
+We appreciate the support of Chris Sullivan and the Center for Genome Research and Biocomputing (CGRB) at Oregon State University for help getting this website online. 
+
+## Funding
+
+**OomyceteDB** was supported in part by NSF ([1542681](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1542681)) and USDA ARS ([2072-22000-041-00-D](https://www.ars.usda.gov/research/project/?accnNo=432469), [2038-22000-016-00-D](https://www.ars.usda.gov/research/project/?accnNo=431470)). 
+
+## License
+
+This site and the data hosted here is licensed as [Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/).
+
+## How to cite
+
+A manuscript for submission is currently being drafted and will be submitted in 2-4 months.
+
+## Disclaimer statement
+
+Data on this website is provided by the copyright holders and contributors "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed.
+In no event shall the copyright owner or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this data, even if advised of the possibility of such damage.
+
+## How this site is made
+
+This site is a combination of static [R Markdown](https://rmarkdown.rstudio.com/rmarkdown_websites.html) content and dynamic [R Shiny](https://shiny.rstudio.com/) applications. The source code for the website can be found here:
+
+https://github.com/grunwaldlab/OomyceteDB
+
+To set up a similar site, you will need a web server like Apache and an instance of the [R Shiny Server](https://www.rstudio.com/products/shiny/shiny-server/) running.
+We store and manage the raw data on Google Drive for convenience.
+[BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi ) also needs to be installed. 

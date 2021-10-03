@@ -1,0 +1,11 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+source("style.R")
+```
+
+# Frequently asked questions
+
+Please email Niklaus J. Grünwald with questions and we will post responses of general interest here.

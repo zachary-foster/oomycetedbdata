@@ -1,0 +1,10 @@
+Package: oomycetedbdata
+Type: Package
+Title: Stores the public data for the OomyceteDB database
+Version: 0.1.0
+Author: Zachary S.L. Foster
+Maintainer: Zachary S.L. Foster <zacharyfoster1989@gmail.com>
+Description: A data-only package to store the releases of the OomyceteDB database.
+License: MIT
+Encoding: UTF-8
+LazyData: true
