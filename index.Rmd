@@ -5,7 +5,11 @@ output: html_document
 
 ```{r setup, include=FALSE}
 source("style.R")
-
+library(r2d3)
+library(plotly)
+library(readr)
+library(metacoder)
+library(purrr)
 ```
 
 **OomyceteDB** provides quality-controlled, aligned and annotated Oomycete *rps10* sequences.
@@ -20,4 +24,35 @@ The following heat-tree shows the taxa currently represented in the database:
 <!-- <iframe class = "shiny_frame" src="http://oomy.cgrb.oregonstate.edu:3838/grunwald/OomyceteDB_dev/contents" frameBorder="0">
 </iframe> -->
 
+```{r}
+# input_data <- jsonlite::read_json('flare-2.json')
+# r2d3(data = jsonlite::read_json("flare.json"), d3_version = 4, script = "test_script.js", width="100%")
+# r2d3(data = jsonlite::read_json("flare-2.json"), d3_version = 6, script = "test_script.js")
+```
+
+```{r}
+# Load last release
+rps10_data <- readr::read_csv('docs/inst/extdata/releases/oodb_rps10_v1.csv')
+rps10_data <- rps10_data[! is.na(rps10_data$classification), ]
+rps10_data <- rps10_data[, c("oodb_id", "classification")]
+
+# Convert to taxmap
+obj <- parse_tax_data(rps10_data, class_sep = ";", class_cols = "classification")
+
+parents <- map_chr(supertaxa(obj, recursive = FALSE, value = 'taxon_names'), function(x) {
+  if (length(x) == 0) {
+    return('')
+  } else {
+    return(x)
+  }
+})
+fig <- plot_ly(
+  labels = taxon_names(obj),
+  parents = parents,
+  values = n_obs(obj, data = "tax_data"),
+  type = 'sunburst'
+)
+
+fig
+```
 
