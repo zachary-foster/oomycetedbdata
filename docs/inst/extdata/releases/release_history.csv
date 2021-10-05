@@ -4,3 +4,4 @@ release_number,release_date,csv_path,fasta_path,description
 3,2021-10-05,oodb_rps10_v3.csv,oodb_rps10_v3.fasta,Test release
 4,2021-10-05,oodb_rps10_v4.csv,oodb_rps10_v4.fasta,tests
 5,2021-10-05,oodb_rps10_v5.csv,oodb_rps10_v5.fasta,test
+6,2021-10-05,oodb_rps10_v6.csv,oodb_rps10_v6.fasta,A test release
