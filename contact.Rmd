@@ -1,12 +1,11 @@
 ---
+title: "Contact information"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 source("style.R")
 ```
-
-## Contact information
 
 **Niklaus Grunwald**
 Horticultural Crops Research Lab, USDA ARS
