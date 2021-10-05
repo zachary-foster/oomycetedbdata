@@ -13,40 +13,45 @@ library(DT)
 ```
 
 There are multiple releases of the database.
+For each release, there is a CSV and a FASTA version of the database.
 Usually, you should use the latest release, unless you are trying to reproduce a previous analysis.
-You can download the entire database here or just a subset.
+
+## CSV format
+
+The CSV format encodes a table with one row per sequence, with the following columns: 
+
+* "oodb_id": This is the unique numeric ID specific to OomyceteDB.
+* "name": The binomial species name of the organism with spaces replaced by underscores.
+* "strain": The name of the strain/isolate if available. If the strain is not available, it is left empty.
+* "genbank_id": The NCBI accession number for the sequence submitted to genbank. Note that the version number (the number at the end, after the period) is not included.
+* "taxon_id": The NCBI taxonomy id. This can be looked up using the NCBI accession number.
+* "classification": The taxonomic classification separated by semicolons. This classification is curated by us and is not the taxonomic classification from NCBI associated with the NCBI taxid.
 
 ## The FASTA header format
 
-The database is a FASTA file with headers in the following format:
+The FASTA formated file has headers with the same information as the CSV format in the following format:
 
+```{r comment=NA}
+release_data <- get_release_data()
+current_fasta_name <- release_data$fasta_path[which.max(release_data$release_number)]
+current_fasta_path <- file.path(find_release_dir(), current_fasta_name)
+cat(read_lines(current_fasta_path, n_max = 1))
 ```
->name=Aphanomyces_invadans|strain=NJM9701|ncbi_acc=KX405005|ncbi_taxid=157072|oodb_id=13|taxonomy=cellular_organisms;Eukaryota;Stramenopiles;Oomycetes;Saprolegniales;Saprolegniaceae;Aphanomyces_invadans
-```
 
-The following fields are present:
 
-* "name": The binomial species name of the organism with spaces replaced by underscores.
-* "strain": The name of the strain/isolate if available. If the strain is not available, it is left empty.
-* "ncbi_acc: The NCBI accession number for the sequence submitted to genbank. Note that the version number (the number at the end, after the period) is not included.
-* "ncbi_taxid": The NCBI taxonomy id. This can be looked up using the NCBI accession number.
-* "oodb_id": This is the unique numeric ID specific to OomyceteDB.
-* "taxonomy": The taxonomic classification separated by semicolons. This classification is curated by us and is not the taxonomic classification from NCBI associated with the NCBI taxid.
-
-## Downloads
+## Download
 
 ```{r}
-release_data <- get_release_data()
 release_data %>%
   arrange(desc(release_number)) %>%
   mutate(csv_path = paste0('<a href="', file.path(find_release_dir(), csv_path), '">', csv_path, '</a>'),
          fasta_path = paste0('<a href="', file.path(find_release_dir(), fasta_path), '">', fasta_path, '</a>')) %>%
-  rename("Release" = release_number, "CSV download" = csv_path, "FASTA download" = fasta_path, "Release notes" = description) %>%
-  datatable(escape = FALSE)
+  rename("Release" = release_number, "Date released" = release_date, "CSV download" = csv_path, "FASTA download" = fasta_path, "Release notes" = description) %>%
+  datatable(escape = FALSE, rownames = FALSE)
 ```
 
 
-## Search the database
+## Browse the database
 
 ```{r}
 current_release_name <- release_data$csv_path[which.max(release_data$release_number)]

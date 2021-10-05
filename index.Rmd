@@ -53,7 +53,7 @@ fig <- plot_ly(
   parents = parents,
   hovertext = paste0(n_obs(obj, data = "tax_data"), ' sequences\n',
                      ifelse(is_leaf(obj), '', paste(n_leaves(obj), 'species'))),
-  type = 'treemap',
+  type = 'sunburst',
   branchvalues = 'total'
 ) 
 fig
