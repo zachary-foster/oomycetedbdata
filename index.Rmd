@@ -5,11 +5,12 @@ output: html_document
 
 ```{r setup, include=FALSE}
 source("style.R")
-library(r2d3)
 library(plotly)
 library(readr)
 library(metacoder)
 library(purrr)
+library(oomycetedbtools)
+library(stringr)
 ```
 
 **OomyceteDB** provides quality-controlled, aligned and annotated Oomycete *rps10* sequences.
@@ -18,26 +19,26 @@ The curated database can be downloaded or queried using BLAST (for any release).
 We invite all members of the oomycete community to contribute sequences for new Oomycete species.
 We will include any new taxon with a GenBank accession you share with us.
 
-The following heat-tree shows the taxa currently represented in the database:
+The following interactive figure shows the taxa currently represented in the database. Click on a taxon to zoom in and click on the center to zoom out again.
 
 
 <!-- <iframe class = "shiny_frame" src="http://oomy.cgrb.oregonstate.edu:3838/grunwald/OomyceteDB_dev/contents" frameBorder="0">
 </iframe> -->
 
-```{r}
-# input_data <- jsonlite::read_json('flare-2.json')
-# r2d3(data = jsonlite::read_json("flare.json"), d3_version = 4, script = "test_script.js", width="100%")
-# r2d3(data = jsonlite::read_json("flare-2.json"), d3_version = 6, script = "test_script.js")
-```
 
-```{r}
+```{r fig.width=10, fig.height=10}
 # Load last release
-rps10_data <- readr::read_csv('docs/inst/extdata/releases/oodb_rps10_v1.csv')
+release_data_data <- get_release_data()
+current_release_name <- release_data_data$csv_path[which.max(release_data_data$release_number)]
+current_release_path <- file.path(find_release_dir(), current_release_name)
+rps10_data <- readr::read_csv(current_release_path)
 rps10_data <- rps10_data[! is.na(rps10_data$classification), ]
 rps10_data <- rps10_data[, c("oodb_id", "classification")]
 
 # Convert to taxmap
 obj <- parse_tax_data(rps10_data, class_sep = ";", class_cols = "classification")
+obj <- filter_taxa(obj, taxon_names == "Oomycota", subtaxa = TRUE)
+obj <- filter_taxa(obj, n_supertaxa <= 4)
 
 parents <- map_chr(supertaxa(obj, recursive = FALSE, value = 'taxon_names'), function(x) {
   if (length(x) == 0) {
@@ -47,12 +48,13 @@ parents <- map_chr(supertaxa(obj, recursive = FALSE, value = 'taxon_names'), fun
   }
 })
 fig <- plot_ly(
+  ids =  taxon_names(obj),
   labels = taxon_names(obj),
   parents = parents,
-  values = n_obs(obj, data = "tax_data"),
-  type = 'sunburst'
-)
-
+  hovertext = paste0(n_obs(obj, data = "tax_data"), ' sequences\n',
+                     ifelse(is_leaf(obj), '', paste(n_leaves(obj), 'species'))),
+  type = 'treemap',
+  branchvalues = 'total'
+) 
 fig
 ```
-

@@ -5,6 +5,11 @@ output: html_document
 
 ```{r setup, include=FALSE}
 source("style.R")
+library(readr)
+library(purrr)
+library(oomycetedbtools)
+library(tidyverse)
+library(DT)
 ```
 
 There are multiple releases of the database.
@@ -28,5 +33,28 @@ The following fields are present:
 * "oodb_id": This is the unique numeric ID specific to OomyceteDB.
 * "taxonomy": The taxonomic classification separated by semicolons. This classification is curated by us and is not the taxonomic classification from NCBI associated with the NCBI taxid.
 
-## Releases
+## Downloads
+
+```{r}
+release_data <- get_release_data()
+release_data %>%
+  arrange(desc(release_number)) %>%
+  mutate(csv_path = paste0('<a href="', file.path(find_release_dir(), csv_path), '">', csv_path, '</a>'),
+         fasta_path = paste0('<a href="', file.path(find_release_dir(), fasta_path), '">', fasta_path, '</a>')) %>%
+  rename("Release" = release_number, "CSV download" = csv_path, "FASTA download" = fasta_path, "Release notes" = description) %>%
+  datatable(escape = FALSE)
+```
+
+
+## Search the database
+
+```{r}
+current_release_name <- release_data$csv_path[which.max(release_data$release_number)]
+current_release_path <- file.path(find_release_dir(), current_release_name)
+rps10_data <- readr::read_csv(current_release_path)
+
+rps10_data %>%
+  select(oodb_id,  name, strain, genbank_id, taxon_id) %>%
+  datatable()
+```
 
