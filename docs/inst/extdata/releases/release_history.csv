@@ -2,3 +2,4 @@ release_number,release_date,csv_path,fasta_path,description
 1,2021-10-05,oodb_rps10_v1.csv,oodb_rps10_v1.fasta,First release
 2,2021-10-05,oodb_rps10_v2.csv,oodb_rps10_v2.fasta,A test change
 3,2021-10-05,oodb_rps10_v3.csv,oodb_rps10_v3.fasta,Test release
+4,2021-10-05,oodb_rps10_v4.csv,oodb_rps10_v4.fasta,tests
